@@ -6,11 +6,18 @@ use yii\widgets\LinkPager;
 
 $this->title = "Все документы НПА";
 
+$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 
 <div id="document">
     <section class="container">
         <div class="row">
+            <div class="col-12">
+                <h3>Документы НПА</h3>
+            </div>
+        </div>
+        <div class="row mb-3">
             <div class="col-12">
                 <?= ListView::widget([
                     'dataProvider' => $dataProvider,
