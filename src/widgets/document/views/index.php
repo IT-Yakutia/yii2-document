@@ -2,6 +2,9 @@
 
 use yii\bootstrap4\Html;
 
+use ityakutia\document\assets\DocumentAsset;
+$assetBundle = DocumentAsset::register($this);
+
 $is_divided = false;
 
 ?>
@@ -18,9 +21,17 @@ $is_divided = false;
                 <?php if (!$is_divided && $key > (sizeof($documents)/2)) { $is_divided = true; ?>
                      </div><div class="col-6">
                 <?php } ?>
-                <a href="<?= $document->file ?>" target="_blank" download="<?= $document->title ?>">
-                    <small><?= Yii::$app->formatter->asDate($document->created_at); ?></small>
-                    <p><?= $document->title ?> [<?= $document->size ?>]</p>
+                <a href="<?= $document->file; ?>" download="<?= $document->title; ?>" class="d-flex align-items-center my-3">
+                    <div class="mr-2">
+                        <img width="30" height="30" src="<?= $assetBundle->baseUrl ?>/img/icon_doc.png" alt="Документы НПА">
+                    </div>
+                    <div class="">
+                        <small><?= Yii::$app->formatter->asDate($document->created_at); ?></small>
+                        <p class="p-0 m-0"><?= $document->title ?> [<?= $document->size ?>]</p>
+                    </div>
+                    <div class="flex-grow-1 text-right">
+                        <img width="24" height="24" src="<?= $assetBundle->baseUrl ?>/img/icon_download.png" alt="Скачать документы НПА">
+                    </div>
                 </a>
             <?php } ?>
         </div>
