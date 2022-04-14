@@ -65,3 +65,13 @@ Add fixtures in docker:
 ```sh
 php yii fixture Document --namespace='ityakutia\document\tests\fixtures' --interactive=0
 ```
+
+
+```php
+'custom_view_for_modules' => [
+    'document_front' => [
+        'index' => '@frontend/views/front_page/index',
+        '_item' => '@frontend/views/front_page/_item',
+    ],
+],
+```

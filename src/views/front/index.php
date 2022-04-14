@@ -8,6 +8,8 @@ $this->title = "Все документы НПА";
 
 $this->params['breadcrumbs'][] = $this->title;
 
+$itemView = Yii::$app->params['custom_view_for_modules']['document_front']['_item'] ?? '_item';
+
 ?>
 
 <div id="document">
@@ -22,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= ListView::widget([
                     'dataProvider' => $dataProvider,
                     'itemOptions' => ['class' => 'item'],
-                    'itemView' => '_item',
+                    'itemView' => $itemView,
                     'options' => ['tag' => false, 'class' => false, 'id' => false],
                     'itemOptions' => [
                         'tag' => false,
