@@ -1,8 +1,8 @@
 <?php
 
-$this->title = 'Редактирование: ' . $model->title;
+$this->title = 'Новая категория документов';
 ?>
-<div class="document-update">
+<div class="document-category-create">
     <div class="row">
         <div class="col s12">
 		    <?= $this->render('_form', [

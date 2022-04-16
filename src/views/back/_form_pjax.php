@@ -9,9 +9,9 @@ use yii\widgets\Pjax;
 
 ?>
 <?php Pjax::begin(['id' => 'files_ajax_form']) ?>
-<div class="partner-form">
+<div class="document-form">
 
-    <h5>Загрузить файлы</h5>
+    <h6>Загрузить файлы</h6>
     <?php $form = ActiveForm::begin([
         'errorCssClass' => 'red-text',
         'options' => ['id' => 'document-files-form', 'enctype' => 'multipart/form-data', 'data-pjax' => true],

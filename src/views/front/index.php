@@ -4,8 +4,11 @@ use yii\helpers\Url;
 use yii\widgets\ListView;
 use yii\widgets\LinkPager;
 
-$this->title = "Все документы НПА";
+$this->title = $documentCategory === null ? "Все документы НПА" : $documentCategory->title;
 
+if ($documentCategory !== null) {
+    $this->params['breadcrumbs'][] = ['label' => 'Документы НПА', 'url' => ['/document/front/index']];
+}
 $this->params['breadcrumbs'][] = $this->title;
 
 $itemView = Yii::$app->params['custom_view_for_modules']['document_front']['_item'] ?? '_item';
@@ -16,7 +19,7 @@ $itemView = Yii::$app->params['custom_view_for_modules']['document_front']['_ite
     <section class="container">
         <div class="row">
             <div class="col-12">
-                <h3>Документы НПА</h3>
+                <h3><?= $this->title ?></h3>
             </div>
         </div>
         <div class="row mb-3">

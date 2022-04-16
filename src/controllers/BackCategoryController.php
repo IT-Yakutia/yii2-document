@@ -2,11 +2,8 @@
 
 namespace ityakutia\document\controllers;
 
-use ityakutia\document\models\Document;
-use ityakutia\document\models\DocumentForm;
-use ityakutia\document\models\DocumentSearch;
 use ityakutia\document\models\DocumentCategory;
-use uraankhayayaal\materializecomponents\imgcropper\actions\UploadAction;
+use ityakutia\document\models\DocumentCategorySearch;
 use uraankhayayaal\sortable\actions\Sorting;
 use Yii;
 use yii\filters\AccessControl;
@@ -14,9 +11,8 @@ use yii\filters\VerbFilter;
 use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\web\UploadedFile;
 
-class BackController extends Controller
+class BackCategoryController extends Controller
 {
     public function behaviors()
     {
@@ -44,27 +40,14 @@ class BackController extends Controller
         return [
             'sorting' => [
                 'class' => Sorting::class,
-                'query' => Document::find(),
+                'query' => DocumentCategory::find(),
             ]
         ];
     }
 
-    public function actionIndex($category_id)
+    public function actionIndex()
     {
-        $documentCategory = $this->findCategoryModel($category_id);
-
-        $uploadFilesModel = new DocumentForm();
-        $uploadFilesModel->category_id = $documentCategory->id;
-        if (Yii::$app->request->isPost) {
-            $uploadFilesModel->uploadFiles = UploadedFile::getInstances($uploadFilesModel, 'uploadFiles');
-            if ($uploadFilesModel->uploadMultiple()) {
-                $uploadFilesModel = new DocumentForm();
-                $uploadFilesModel->category_id = $documentCategory->id;
-            }
-        }
-
-        $searchModel = new DocumentSearch();
-        $searchModel->category_id = $documentCategory->id;
+        $searchModel = new DocumentCategorySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         Url::remember();
@@ -72,8 +55,6 @@ class BackController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'uploadFilesModel' => $uploadFilesModel,
-            'documentCategory' => $documentCategory,
         ]);
     }
 
@@ -94,7 +75,6 @@ class BackController extends Controller
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-        $model->deleteFile();
         if (false !== $model->delete()) {
             Yii::$app->session->setFlash('success', 'Запись успешно удалена!');
         }
@@ -103,16 +83,6 @@ class BackController extends Controller
     }
 
     protected function findModel($id)
-    {
-        $model = Document::findOne($id);
-        if (null === $model) {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-
-        return $model;
-    }
-
-    protected function findCategoryModel($id)
     {
         $model = DocumentCategory::findOne($id);
         if (null === $model) {

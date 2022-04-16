@@ -7,25 +7,12 @@ use yii\grid\GridView;
 use yii\grid\SerialColumn;
 use yii\widgets\LinkPager;
 use yii\helpers\Url;
-use yii\widgets\Pjax;
 
-$this->title = 'Документы НПА / ' . $documentCategory->title;
+$this->title = 'Категории документов НПА';
 ?>
-<div class="document-index">
-    <div class="row">
-        <div class="col s12"><h5><?= $documentCategory->title ?></h5></div>
-    </div>
+<div class="document-category-index">
     <div class="row">
         <div class="col s12">
-            <?= $this->render('_form_pjax', [
-                'model' => $uploadFilesModel,
-                'documentCategory' => $documentCategory,
-            ]); ?>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col s12">
-            <?php Pjax::begin(['id' => 'files_list']) ?>
             <?= GridView::widget([
                 'tableOptions' => [
                     'class' => 'striped bordered my-responsive-table',
@@ -44,7 +31,13 @@ $this->title = 'Документы НПА / ' . $documentCategory->title;
                 'filterModel' => $searchModel,
                 'columns' => [
                     ['class' => SerialColumn::class],
-                    ['class' => MaterialActionColumn::class, 'template' => '{update}'],
+                    ['class' => MaterialActionColumn::class, 'template' => '{update}{add}',
+                        'buttons'=>[
+                            'add'=>function ($url, $model) {
+                                return Html::a('<i class="material-icons tooltipped" data-position="top" data-tooltip="Добавть файлы" title="Добавть файлы">add_circle_outline</i>', ['/document/back/index', 'category_id' => $model->id]);
+                            },
+                        ],
+                    ],
 
                     [
                         'attribute' => 'title',
@@ -53,14 +46,12 @@ $this->title = 'Документы НПА / ' . $documentCategory->title;
                             return Html::a($model->title,['update', 'id' => $model->id]);
                         }
                     ],
-                    'number',
-                    'accepted_at',
                     [
-                        'header' => 'Файл',
+                        'header' => 'Количество документов',
                         'format' => 'raw',
-                        'value' => function($model) {
-                            return $model->file ? ('<a href="'.$model->file.'" download="'.$model->title.'"  data-pjax="0">Скачать</a>') : '';
-                        }
+                        'value' => function($model){
+                            return Html::a('Файлов ' . $model->getDocuments()->count() . ' шт.', ['/document/back/index', 'category_id' => $model->id]);
+                        },
                     ],
                     [
                         'attribute' => 'is_publish',
@@ -85,7 +76,6 @@ $this->title = 'Документы НПА / ' . $documentCategory->title;
                     'prevPageLabel' => '<i class="material-icons">chevron_left</i>',
                 ],
             ]); ?>
-            <?php Pjax::end() ?>
         </div>
     </div>
 </div>

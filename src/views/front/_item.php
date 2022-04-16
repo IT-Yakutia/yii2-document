@@ -12,7 +12,7 @@ $assetBundle = DocumentAsset::register($this);
             <img width="30" height="30" src="<?= $assetBundle->baseUrl ?>/img/icon_doc.png" alt="Документы НПА">
         </div>
         <div class="">
-            <small><?= Yii::$app->formatter->asDate($model->created_at); ?></small>
+            <small><?= $model->number; ?> от <?= Yii::$app->formatter->asDate($model->accepted_at); ?></small>
             <p class="p-0 m-0"><?= $model->title ?> [<?= $model->size ?>]</p>
         </div>
         <div class="flex-grow-1 text-right">

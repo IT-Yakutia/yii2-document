@@ -13,6 +13,11 @@ class DocumentForm extends Model
     const URL_PATH = "/uploads/document/";
 
     /**
+     * @var integer
+     */
+    public $category_id;
+
+    /**
      * @var UploadedFile
      */
     public $uploadFile;
@@ -27,6 +32,8 @@ class DocumentForm extends Model
         return [
             [['uploadFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, gif, doc, docx, ppt, pptx, xls, xlsx, pdf, odt, rtf'],
             [['uploadFiles'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, gif, doc, docx, ppt, pptx, xls, xlsx, pdf, odt, rtf', 'maxFiles' => static::MAX_UPLOAD_FILES],
+            ['category_id', 'required'],
+            ['category_id', 'integer'],
         ];
     }
 
@@ -35,6 +42,7 @@ class DocumentForm extends Model
         return [
             'uploadFile' => 'Файл',
             'uploadFiles' => 'Файлы',
+            'category_id' => 'Категория документов НПА',
         ];
     }
     
@@ -47,6 +55,7 @@ class DocumentForm extends Model
 
         if ($this->uploadFile->saveAs($path . $filename, false)) {
             $model = new Document();
+            $model->category_id = $this->category_id;
             $model->file = static::URL_PATH . $filename;
             $model->title = $file->baseName . '.' . $file->extension;
             $model->size = \Yii::$app->formatter->asShortSize($file->size);
@@ -72,6 +81,7 @@ class DocumentForm extends Model
 
                 if ($file->saveAs($path . $filename, false)) {
                     $model = new Document();
+                    $model->category_id = $this->category_id;
                     $model->file = static::URL_PATH . $filename;
                     $model->size = \Yii::$app->formatter->asShortSize($file->size);
                     $model->title = $file->baseName . '.' . $file->extension;
