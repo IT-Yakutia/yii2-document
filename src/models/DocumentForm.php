@@ -20,7 +20,7 @@ class DocumentForm extends Model
     /**
      * @var UploadedFile
      */
-    public $uploadFile;
+    // public $uploadFile;
 
     /**
      * @var UploadedFile[]
@@ -30,8 +30,8 @@ class DocumentForm extends Model
     public function rules()
     {
         return [
-            [['uploadFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, gif, doc, docx, ppt, pptx, xls, xlsx, pdf, odt, rtf'],
-            [['uploadFiles'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, gif, doc, docx, ppt, pptx, xls, xlsx, pdf, odt, rtf', 'maxFiles' => static::MAX_UPLOAD_FILES],
+            // [['uploadFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, gif, doc, docx, ppt, pptx, xls, xlsx, pdf, odt, rar, zip'],
+            [['uploadFiles'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, gif, doc, docx, ppt, pptx, xls, xlsx, pdf, odt, rar, zip', 'maxFiles' => static::MAX_UPLOAD_FILES],
             ['category_id', 'required'],
             ['category_id', 'integer'],
         ];
@@ -40,35 +40,35 @@ class DocumentForm extends Model
     public function attributeLabels()
     {
         return [
-            'uploadFile' => 'Файл',
+            // 'uploadFile' => 'Файл',
             'uploadFiles' => 'Файлы',
             'category_id' => 'Категория документов НПА',
         ];
     }
     
-    public function upload()
-    {
-        $path = \Yii::getAlias(static::FILE_PATH);
-        $filename = '_' . time() . '_' . BaseInflector::slug($this->uploadFile->baseName) . '.' . $this->uploadFile->extension;
-        if (!file_exists($path) || !is_dir($path))
-            \yii\helpers\FileHelper::createDirectory($path, $mode = 0775, $recursive = true);
+    // public function upload()
+    // {
+    //     $path = \Yii::getAlias(static::FILE_PATH);
+    //     $filename = '_' . time() . '_' . BaseInflector::slug($this->uploadFile->baseName) . '.' . $this->uploadFile->extension;
+    //     if (!file_exists($path) || !is_dir($path))
+    //         \yii\helpers\FileHelper::createDirectory($path, $mode = 0775, $recursive = true);
 
-        if ($this->uploadFile->saveAs($path . $filename, false)) {
-            $model = new Document();
-            $model->category_id = $this->category_id;
-            $model->file = static::URL_PATH . $filename;
-            $model->title = $file->baseName . '.' . $file->extension;
-            $model->size = \Yii::$app->formatter->asShortSize($file->size);
-            $model->is_publish = 1;
-            if (!$model->save()) {
-                \Yii::error("Error to save file model: " . json_encode($model->errors), $category = 'document');
-            }
-            return true;
-        } else {
-            \Yii::error("Error to save upload file to disk.", $category = 'document');
-            return false;
-        }
-    }
+    //     if ($this->uploadFile->saveAs($path . $filename, false)) {
+    //         $model = new Document();
+    //         $model->category_id = $this->category_id;
+    //         $model->file = static::URL_PATH . $filename;
+    //         $model->title = $file->baseName . '.' . $file->extension;
+    //         $model->size = \Yii::$app->formatter->asShortSize($file->size);
+    //         $model->is_publish = 1;
+    //         if (!$model->save()) {
+    //             \Yii::error("Error to save file model: " . json_encode($model->errors), $category = 'document');
+    //         }
+    //         return true;
+    //     } else {
+    //         \Yii::error("Error to save upload file to disk.", $category = 'document');
+    //         return false;
+    //     }
+    // }
 
     public function uploadMultiple()
     {
@@ -95,6 +95,7 @@ class DocumentForm extends Model
             }
             return true;
         } else {
+            $this->addError('uploadFiles', 'Не правильный формат загружаемых фалов');
             return false;
         }
     }
