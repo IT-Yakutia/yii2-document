@@ -58,6 +58,25 @@ class BackCategoryController extends Controller
         ]);
     }
 
+    /**
+     * Creates a new DocumentCategory model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionCreate()
+    {
+        $model = new DocumentCategory();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', 'Запись успешно создана!');
+            return $this->redirect(['index']);
+        }
+
+        return $this->render('create', [
+            'model' => $model,
+        ]);
+    }
+
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
