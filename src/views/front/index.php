@@ -2,7 +2,7 @@
 
 use yii\helpers\Url;
 use yii\widgets\ListView;
-use yii\widgets\LinkPager;
+use yii\bootstrap4\LinkPager;
 
 $this->title = $documentCategory === null ? "Все документы НПА" : $documentCategory->title;
 
@@ -42,15 +42,6 @@ $itemView = Yii::$app->params['custom_view_for_modules']['document_front']['_ite
         <div class="d-flex justify-content-center align-items-center">
             <?= LinkPager::widget([
                 'pagination' => $dataProvider->pagination,
-                'registerLinkTags' => true,
-                'options' => ['class' => 'pagination'],
-                'prevPageCssClass' => '',
-                'nextPageCssClass' => '',
-                'pageCssClass' => 'page-item',
-                'nextPageLabel' => '>',
-                'prevPageLabel' => '<',
-                'linkOptions' => ['class' => 'page-link btn'],
-                'disabledPageCssClass' => 'd-none',
             ]); ?>
         </div>
     </section>
