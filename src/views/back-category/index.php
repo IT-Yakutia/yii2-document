@@ -13,6 +13,18 @@ $this->title = 'Категории документов НПА';
 <div class="document-category-index">
     <div class="row">
         <div class="col s12">
+            <p>
+                <?= Html::a('Добавить', ['create'], ['class' => 'btn btn-success']) ?>
+            </p>
+            <div class="fixed-action-btn">
+                <?= Html::a('<i class="material-icons">add</i>', ['create'], [
+                    'class' => 'btn-floating btn-large waves-effect waves-light tooltipped',
+                    'title' => 'Сохранить',
+                    'data-position' => 'left',
+                    'data-tooltip' => 'Добавить',
+                ]) ?>
+            </div>
+            
             <?= GridView::widget([
                 'tableOptions' => [
                     'class' => 'striped bordered my-responsive-table',
