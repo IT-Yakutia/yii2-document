@@ -7,7 +7,7 @@ $assetBundle = DocumentAsset::register($this);
 
 ?>
 
-    <a href="<?= $model->file; ?>" download="<?= $model->title; ?>" class="d-flex align-items-center my-2 pb-2" style="border-bottom: 1px dotted #cdcdcd;">
+    <a href="<?= $model->file; ?>" <?= (pathinfo($model->file, PATHINFO_EXTENSION) == 'pdf') ? '' : ('download="'.$model->title.'"'); ?> target="_blank" class="d-flex align-items-center my-2 pb-2" style="border-bottom: 1px dotted #cdcdcd;">
         <div class="mr-2">
             <img width="30" height="30" src="<?= $assetBundle->baseUrl ?>/img/icon_doc.png" alt="Документы НПА">
         </div>
